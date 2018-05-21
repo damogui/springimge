@@ -128,6 +128,16 @@ public abstract class BaseController {
         }
         return page;
     }
+    /**
+     * @Author: 郭佳
+     * @param pageInfo
+     * @Description:TODO
+     * @Date:  2018-05-21 18:10
+     */
+    public <T> Page<T> getPage(PageInfo pageInfo){
+
+      return getPage(pageInfo.getNowpage(),pageInfo.getSize(),pageInfo.getSort(),pageInfo.getOrder());
+    }
     
     public <T> PageInfo pageToPageInfo(Page<T> page) {
         PageInfo pageInfo = new PageInfo();
