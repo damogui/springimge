@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>如梦技术-主页</title>
+    <title>好未来-主页</title>
     <%@ include file="/commons/basejs.jsp" %>
     <link rel="stylesheet" type="text/css" href="${staticPath }/static/style/css/main.css">
     <script type="text/javascript" src="${staticPath }/static/js/main.js"></script>
@@ -43,7 +43,8 @@
         <div data-options="region:'center', border:false">
             <div id="mainTabs" style="height:250px">
                 <div title="首页" data-options="iconCls:'glyphicon-home',border:false">
-                    <iframe src="http://www.dreamlu.net/" class="easyui-panel" data-options="fit:true,border:false" frameborder="0"></iframe>
+                    <iframe src="https://www.baidu.com" class="easyui-panel" data-options="fit:true,border:false" frameborder="0"></iframe>
+                    <%--http://www.dreamlu.net/--%>
                 </div>
             </div>
         </div>
