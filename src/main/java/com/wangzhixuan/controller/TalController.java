@@ -126,4 +126,27 @@ public class TalController extends BaseController {
             return renderError("编辑失败！");
         }
     }
+    /**
+     * 线性图
+
+     * @return
+     */
+    @GetMapping("/linePage")
+    public String linePage() {
+
+        return "admin/tal/linePage";
+    }
+    /**
+     * @Author: 郭佳
+     * @param
+     * @Description:TODO 饼状图
+     * @Date:  2018-05-22 17:18
+     */
+    @GetMapping("/piePage")
+    public  String piePage(){
+
+        return "admin/tal/piePage";
+
+    }
+
 }

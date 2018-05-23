@@ -19,7 +19,13 @@
             title : '编号',
             field : 'id',
             sortable : true
-        }, {
+        },
+            {
+                width : '120',
+                title : '姓名',
+                field : 'name',
+                sortable : true
+            },{
             width : '60',
             title : '状态',
             field : 'status',
@@ -42,13 +48,14 @@
             title : '操作',
             width : 200,
             formatter : function(value, row, index) {
+                debugger;
                 var str = '';
                 <shiro:hasPermission name="/tal/edit">
-                    str += $.formatString('<a href="javascript:void(0)" class="tal-easyui-linkbutton-edit" data-options="plain:true,iconCls:\'fi-pencil icon-blue\'" onclick="talEditFun(\'{0}\');" >编辑</a>', row.id);
+                    str += $.formatString('<a href="javascript:void(0)" class="tal-easyui-linkbutton-edit" data-options="plain:true,iconCls:\'glyphicon-pencil icon-blue\'" onclick="talEditFun(\'{0}\');" >编辑</a>', row.id);
                 </shiro:hasPermission>
                 <shiro:hasPermission name="/tal/delete">
                     str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
-                    str += $.formatString('<a href="javascript:void(0)" class="tal-easyui-linkbutton-del" data-options="plain:true,iconCls:\'fi-x icon-red\'" onclick="talDeleteFun(\'{0}\');" >删除</a>', row.id);
+                    str += $.formatString('<a href="javascript:void(0)" class="tal-easyui-linkbutton-del" data-options="plain:true,iconCls:\'glyphicon-trash icon-red\'" onclick="talDeleteFun(\'{0}\');" >删除</a>', row.id);
                 </shiro:hasPermission>
                 return str;
             }
@@ -174,6 +181,6 @@ function talSearchFun() {
 </div>
 <div id="talToolbar" style="display: none;">
     <shiro:hasPermission name="/tal/add">
-        <a onclick="talAddFun();" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'fi-page-add'">添加</a>
+        <a onclick="talAddFun();" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'glyphicon-plus icon-green'">添加</a>
     </shiro:hasPermission>
 </div>

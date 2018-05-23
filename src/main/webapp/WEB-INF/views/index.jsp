@@ -43,7 +43,7 @@
         <div data-options="region:'center', border:false">
             <div id="mainTabs" style="height:250px">
                 <div title="首页" data-options="iconCls:'glyphicon-home',border:false">
-                    <iframe src="https://www.baidu.com" class="easyui-panel" data-options="fit:true,border:false" frameborder="0"></iframe>
+                    <iframe src="http://mail.100tal.com/" class="easyui-panel" data-options="fit:true,border:false" frameborder="0"></iframe>
                     <%--http://www.dreamlu.net/--%>
                 </div>
             </div>

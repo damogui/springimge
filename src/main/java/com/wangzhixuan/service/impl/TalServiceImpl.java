@@ -27,7 +27,7 @@ public class TalServiceImpl<T> extends ServiceImpl<TalMapper, Tal> implements IT
         String name = tal.getName();
         tal.setName(null);
         EntityWrapper<Tal> ew = new EntityWrapper<Tal>(tal);
-        ew.like("name" , name, SqlLike.DEFAULT);
+        ew.like("name" , name, SqlLike.DEFAULT).eq("delete_flag",0);
         return super.selectPage(var1, ew);
     }
 }

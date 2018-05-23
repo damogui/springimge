@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.wangzhixuan.commons.result.PageInfo;
 import com.wangzhixuan.commons.result.Tree;
+import com.wangzhixuan.commons.shiro.ShiroDbRealm;
+import com.wangzhixuan.commons.shiro.ShiroUser;
 import com.wangzhixuan.commons.utils.StringUtils;
 import com.wangzhixuan.mapper.RoleMapper;
 import com.wangzhixuan.mapper.RoleResourceMapper;
@@ -12,15 +14,16 @@ import com.wangzhixuan.mapper.UserRoleMapper;
 import com.wangzhixuan.model.Role;
 import com.wangzhixuan.model.RoleResource;
 import com.wangzhixuan.service.IRoleService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.mgt.RealmSecurityManager;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 /**
- *
  * Role 表数据服务层接口实现类
- *
  */
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
@@ -31,21 +34,21 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     private UserRoleMapper userRoleMapper;
     @Autowired
     private RoleResourceMapper roleResourceMapper;
-    
+
     public List<Role> selectAll() {
         EntityWrapper<Role> wrapper = new EntityWrapper<Role>();
         wrapper.orderBy("seq");
         return roleMapper.selectList(wrapper);
     }
-    
+
     @Override
     public void selectDataGrid(PageInfo pageInfo) {
         Page<Role> page = new Page<Role>(pageInfo.getNowpage(), pageInfo.getSize());
-        
+
         EntityWrapper<Role> wrapper = new EntityWrapper<Role>();
         wrapper.orderBy(pageInfo.getSort(), pageInfo.getOrder().equalsIgnoreCase("ASC"));
         selectPage(page, wrapper);
-        
+
         pageInfo.setRows(page.getRecords());
         pageInfo.setTotal(page.getTotal());
     }
@@ -70,12 +73,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         RoleResource roleResource = new RoleResource();
         roleResource.setRoleId(roleId);
         roleResourceMapper.delete(new EntityWrapper<RoleResource>(roleResource));
-        
+
         // 如果资源id为空，判断为清空角色资源
         if (StringUtils.isBlank(resourceIds)) {
             return;
         }
-        
+
         String[] resourceIdArray = resourceIds.split(",");
         for (String resourceId : resourceIdArray) {
             roleResource = new RoleResource();
@@ -83,13 +86,23 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
             roleResource.setResourceId(Long.parseLong(resourceId));
             roleResourceMapper.insert(roleResource);
         }
+        //更新缓存
+        RealmSecurityManager rsm = (RealmSecurityManager) SecurityUtils.getSecurityManager();
+        ShiroDbRealm realm = (ShiroDbRealm) rsm.getRealms().iterator().next();
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        //getShiroUser().getName();
+        //realm.removeUserCache();
+        realm.removeUserCache(shiroUser.getLoginName());
+
+       // realm.clearCachedAuthorization();
+
     }
 
     @Override
     public List<Long> selectResourceIdListByRoleId(Long id) {
         return roleMapper.selectResourceIdListByRoleId(id);
     }
-    
+
     @Override
     public Map<String, Set<String>> selectResourceMapByUserId(Long userId) {
         Map<String, Set<String>> resourceMap = new HashMap<String, Set<String>>();
